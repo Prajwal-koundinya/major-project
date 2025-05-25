@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Compass, Utensils, Info, Calendar, MapPin, Star, Clock, Sun, Cloud, CloudRain, Thermometer } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -7,27 +6,34 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { Separator } from '@/components/ui/separator';
+import { useNavigate } from 'react-router-dom';
+import CommunityEvents from './CommunityEvents';
 
+// Updated attractions with new places and placeholder images
 const topAttractions = [
   {
     id: 1,
     name: 'Mysore Palace',
     category: 'Historical',
     description: 'The official residence of the Wadiyar dynasty, this magnificent palace is one of the most famous tourist attractions in India.',
-    image: 'https://images.unsplash.com/photo-1466442929976-97f336a657be?w=400&q=80',
+    image: 'https://images.unsplash.com/photo-1472396961693-142e6e269027?w=400&q=80',
     rating: 4.8,
     timings: '10:00 AM - 5:30 PM',
-    entryFee: '₹70 for Indians'
+    entryFee: '₹70 for Indians',
+    bestTime: 'morning', // morning, afternoon, evening
+    isOpen: true
   },
   {
     id: 2,
     name: 'Chamundi Hills',
     category: 'Nature',
     description: 'A hilltop with panoramic views of Mysuru city and home to the famous Chamundeshwari Temple.',
-    image: 'https://images.unsplash.com/photo-1472396961693-142e6e269027?w=400&q=80',
+    image: 'https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?w=400&q=80',
     rating: 4.6,
     timings: '6:00 AM - 9:00 PM',
-    entryFee: 'Free'
+    entryFee: 'Free',
+    bestTime: 'morning',
+    isOpen: true
   },
   {
     id: 3,
@@ -37,17 +43,55 @@ const topAttractions = [
     image: 'https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?w=400&q=80',
     rating: 4.3,
     timings: '6:30 PM - 8:30 PM (Fountain Show)',
-    entryFee: '₹25 for Adults'
+    entryFee: '₹25 for Adults',
+    bestTime: 'evening',
+    isOpen: true
+  },
+  {
+    id: 4,
+    name: 'Jaganmohan Art Gallery',
+    category: 'Cultural',
+    description: 'One of the oldest art galleries in India, housing an impressive collection of paintings and artifacts.',
+    image: 'https://images.unsplash.com/photo-1466442929976-97f336a657be?w=400&q=80',
+    rating: 4.4,
+    timings: '8:30 AM - 5:30 PM',
+    entryFee: '₹25 for Indians',
+    bestTime: 'afternoon',
+    isOpen: true
+  },
+  {
+    id: 5,
+    name: 'Mysore Zoo',
+    category: 'Family-Friendly',
+    description: 'One of the oldest and most well-maintained zoos in India, home to diverse wildlife.',
+    image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=400&q=80',
+    rating: 4.5,
+    timings: '8:30 AM - 5:30 PM',
+    entryFee: '₹60 for Adults',
+    bestTime: 'morning',
+    isOpen: true
+  },
+  {
+    id: 6,
+    name: "St. Philomena's Church",
+    category: 'Religious',
+    description: 'A beautiful neo-gothic church with stunning architecture and peaceful ambiance.',
+    image: 'https://images.unsplash.com/photo-1472396961693-142e6e269027?w=400&q=80',
+    rating: 4.7,
+    timings: '6:00 AM - 6:00 PM',
+    entryFee: 'Free',
+    bestTime: 'afternoon',
+    isOpen: true
   }
 ];
 
+// Updated food spots with new places
 const localFoodSpots = [
   {
     id: 1,
     name: 'Mylari Dosa',
     cuisine: 'South Indian',
     description: 'Famous for their butter dosas and authentic South Indian breakfast.',
-    image: 'https://images.unsplash.com/photo-1500673922987-e212871fec22?w=400&q=80',
     rating: 4.7,
     priceRange: '₹50-150',
     specialty: 'Butter Dosa'
@@ -69,9 +113,37 @@ const localFoodSpots = [
     rating: 4.6,
     priceRange: '₹100-250',
     specialty: 'Traditional Thali'
+  },
+  {
+    id: 4,
+    name: 'GTR (Gayatri Tiffin Room)',
+    cuisine: 'South Indian',
+    description: 'Famous for their crisp dosas, idlis, vadas, and traditional filter coffee.',
+    rating: 4.8,
+    priceRange: '₹40-120',
+    specialty: 'Crisp Dosas & Filter Coffee'
+  },
+  {
+    id: 5,
+    name: 'Hotel Dasaprakash',
+    cuisine: 'Multi-Cuisine',
+    description: 'Classical South Indian thalis, sweets, and North Indian options too.',
+    rating: 4.4,
+    priceRange: '₹150-300',
+    specialty: 'South Indian Thalis'
+  },
+  {
+    id: 6,
+    name: 'Oyster Bay',
+    cuisine: 'Fusion',
+    description: 'Royal ambience, fusion of South Indian & continental dishes.',
+    rating: 4.6,
+    priceRange: '₹300-600',
+    specialty: 'Fusion Cuisine'
   }
 ];
 
+// Expanded cultural events
 const culturalEvents = [
   {
     id: 1,
@@ -96,9 +168,26 @@ const culturalEvents = [
     description: 'Morning yoga sessions in the beautiful palace grounds.',
     status: 'Regular',
     venue: 'Palace Grounds'
+  },
+  {
+    id: 4,
+    name: 'Mysuru Literature Festival',
+    date: 'December 1-3, 2024',
+    description: 'Annual celebration of literature with renowned authors and poets.',
+    status: 'Upcoming',
+    venue: 'University of Mysore'
+  },
+  {
+    id: 5,
+    name: 'Traditional Handicrafts Exhibition',
+    date: 'January 15-21, 2025',
+    description: 'Showcase of traditional Mysuru silk, sandalwood, and rosewood crafts.',
+    status: 'Upcoming',
+    venue: 'Mysore Exhibition Grounds'
   }
 ];
 
+// Weather recommendations remain the same
 const weatherRecommendations = [
   {
     id: 1,
@@ -126,6 +215,7 @@ const weatherRecommendations = [
   }
 ];
 
+// Sample itinerary remains the same
 const sampleItinerary = [
   {
     day: 'Day 1',
@@ -159,8 +249,55 @@ const sampleItinerary = [
   }
 ];
 
+// Additional must-try items
+const mustTryItems = [
+  {
+    id: 1,
+    name: 'Mysore Pak',
+    description: 'Made with gram flour, sugar, and ghee, this melt-in-your-mouth treat originated in the royal kitchens.',
+    bestPlaces: ['Sri Krishna Sweets', 'Guru Sweet Mart', 'Palace Sweet Stall'],
+    priceRange: '₹400-800 per kg',
+    shelfLife: '5-7 days (perfect for gifting)'
+  },
+  {
+    id: 2,
+    name: 'Mysore Silk Sarees',
+    description: 'World-famous silk sarees known for their rich texture, vibrant colors, and intricate zari work.',
+    bestPlaces: ['Government Silk Weaving Factory', 'Mysore Silk Saree Udyog', 'Cauvery Arts & Crafts'],
+    priceRange: '₹3,000-50,000+',
+    shelfLife: 'Lifetime with proper care'
+  },
+  {
+    id: 3,
+    name: 'Sandalwood Products',
+    description: 'Authentic Mysore sandalwood items including soaps, oils, and carved artifacts with divine fragrance.',
+    bestPlaces: ['Karnataka Soaps & Detergents', 'Mysore Sandal Soap Factory', 'Government Sandalwood Oil Factory'],
+    priceRange: '₹50-5,000',
+    shelfLife: '2-5 years'
+  },
+  {
+    id: 4,
+    name: 'Traditional Coffee',
+    description: 'Mysore filter coffee made with specially roasted beans and served in traditional brass vessels.',
+    bestPlaces: ['Central Tiffin Room', 'Mylari', 'Hotel Hanumanthu Mess'],
+    priceRange: '₹15-50 per cup',
+    shelfLife: 'Best served fresh'
+  }
+];
+
 const TouristMode: React.FC = () => {
+  const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
+
+  const getBestTimeColor = (bestTime: string) => {
+    const currentHour = new Date().getHours();
+    const isOptimalTime = 
+      (bestTime === 'morning' && currentHour >= 6 && currentHour < 12) ||
+      (bestTime === 'afternoon' && currentHour >= 12 && currentHour < 17) ||
+      (bestTime === 'evening' && currentHour >= 17 && currentHour < 21);
+    
+    return isOptimalTime ? 'bg-green-500' : 'bg-orange-500';
+  };
 
   const InfoTile = ({ icon: Icon, title, children, className = "" }: { icon: any, title: string, children: React.ReactNode, className?: string }) => (
     <Card className={cn("hover:shadow-lg transition-all duration-300 hover:scale-105", className)}>
@@ -173,6 +310,13 @@ const TouristMode: React.FC = () => {
       <CardContent>{children}</CardContent>
     </Card>
   );
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <div className="container pb-16 pt-24 animate-fade-in">
@@ -202,7 +346,9 @@ const TouristMode: React.FC = () => {
                   </div>
                 </div>
               ))}
-              <Button size="sm" variant="outline" className="w-full mt-3">View All</Button>
+              <Button size="sm" variant="outline" className="w-full mt-3" onClick={() => scrollToSection('attractions')}>
+                View All
+              </Button>
             </div>
           </InfoTile>
 
@@ -214,7 +360,9 @@ const TouristMode: React.FC = () => {
                   <p className="text-xs text-muted-foreground">{spot.specialty}</p>
                 </div>
               ))}
-              <Button size="sm" variant="outline" className="w-full mt-3">Explore Food</Button>
+              <Button size="sm" variant="outline" className="w-full mt-3" onClick={() => scrollToSection('food')}>
+                Explore Food
+              </Button>
             </div>
           </InfoTile>
 
@@ -226,7 +374,9 @@ const TouristMode: React.FC = () => {
                   <p className="text-xs text-muted-foreground">{event.date}</p>
                 </div>
               ))}
-              <Button size="sm" variant="outline" className="w-full mt-3">View Events</Button>
+              <Button size="sm" variant="outline" className="w-full mt-3" onClick={() => scrollToSection('events')}>
+                View Events
+              </Button>
             </div>
           </InfoTile>
 
@@ -237,7 +387,9 @@ const TouristMode: React.FC = () => {
                 <span className="text-sm">28°C - Perfect for sightseeing</span>
               </div>
               <p className="text-xs text-muted-foreground">Visit outdoor attractions today!</p>
-              <Button size="sm" variant="outline" className="w-full mt-3">Weather Guide</Button>
+              <Button size="sm" variant="outline" className="w-full mt-3" onClick={() => scrollToSection('weather')}>
+                Weather Guide
+              </Button>
             </div>
           </InfoTile>
         </div>
@@ -287,7 +439,10 @@ const TouristMode: React.FC = () => {
             </Carousel>
           </CardContent>
           <CardFooter>
-            <Button className="w-full bg-mysore-royal-purple hover:bg-mysore-royal-purple/90">
+            <Button 
+              className="w-full bg-mysore-royal-purple hover:bg-mysore-royal-purple/90"
+              onClick={() => navigate('/customize-trip')}
+            >
               Customize My Trip
             </Button>
           </CardFooter>
@@ -314,23 +469,22 @@ const TouristMode: React.FC = () => {
             </TabsTrigger>
           </TabsList>
           
-          <TabsContent value="attractions">
+          <TabsContent value="attractions" id="attractions">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {topAttractions.map((attraction) => (
                 <Card key={attraction.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                  <div className="h-48 overflow-hidden">
-                    <img 
-                      src={attraction.image} 
-                      alt={attraction.name} 
-                      className="w-full h-full object-cover transform transition-transform hover:scale-105"
-                    />
+                  <div className="h-48 overflow-hidden bg-gray-200 flex items-center justify-center">
+                    <span className="text-gray-500">Placeholder Image</span>
                   </div>
                   <CardHeader>
                     <div className="flex justify-between items-center">
                       <CardTitle className="text-lg">{attraction.name}</CardTitle>
-                      <span className="bg-mysore-marigold text-black px-2 py-1 rounded-full text-xs font-medium">
-                        {attraction.rating}★
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <span className="bg-mysore-marigold text-black px-2 py-1 rounded-full text-xs font-medium">
+                          {attraction.rating}★
+                        </span>
+                        <div className={`w-3 h-3 rounded-full ${getBestTimeColor(attraction.bestTime)}`} title="Best time indicator"></div>
+                      </div>
                     </div>
                     <CardDescription>{attraction.category}</CardDescription>
                   </CardHeader>
@@ -350,7 +504,7 @@ const TouristMode: React.FC = () => {
             </div>
           </TabsContent>
           
-          <TabsContent value="food">
+          <TabsContent value="food" id="food">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {localFoodSpots.map((spot) => (
                 <Card key={spot.id} className="hover:shadow-lg transition-shadow">
@@ -378,7 +532,7 @@ const TouristMode: React.FC = () => {
             </div>
           </TabsContent>
           
-          <TabsContent value="events">
+          <TabsContent value="events" id="events">
             <div className="space-y-6">
               {culturalEvents.map((event) => (
                 <Card key={event.id} className="hover:shadow-lg transition-shadow">
@@ -413,7 +567,7 @@ const TouristMode: React.FC = () => {
             </div>
           </TabsContent>
           
-          <TabsContent value="weather">
+          <TabsContent value="weather" id="weather">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {weatherRecommendations.map((rec) => (
                 <Card key={rec.id} className="hover:shadow-lg transition-shadow">
@@ -440,43 +594,52 @@ const TouristMode: React.FC = () => {
           </TabsContent>
         </Tabs>
 
-        {/* Must Try Section */}
-        <Card className="bg-gradient-to-r from-mysore-marigold/20 to-mysore-sandalwood/20 border-mysore-marigold/30">
-          <CardHeader>
-            <CardTitle className="text-lg flex items-center gap-2">
-              <Star className="h-5 w-5 text-mysore-heritage-red" />
-              Must Try: Mysore Pak
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="mb-4">
-              Don't leave Mysuru without trying its famous sweet delicacy - Mysore Pak. 
-              Made with gram flour, sugar, and ghee, this melt-in-your-mouth treat is a 
-              local favorite and originated right here in the royal kitchens.
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-              <div>
-                <h5 className="font-semibold mb-1">Best Places:</h5>
-                <ul className="text-muted-foreground space-y-1">
-                  <li>• Sri Krishna Sweets</li>
-                  <li>• Guru Sweet Mart</li>
-                  <li>• Palace Sweet Stall</li>
-                </ul>
-              </div>
-              <div>
-                <h5 className="font-semibold mb-1">Price Range:</h5>
-                <p className="text-muted-foreground">₹400-800 per kg</p>
-              </div>
-              <div>
-                <h5 className="font-semibold mb-1">Shelf Life:</h5>
-                <p className="text-muted-foreground">5-7 days (perfect for gifting)</p>
-              </div>
-            </div>
-          </CardContent>
-          <CardFooter>
-            <Button variant="link" className="ml-auto text-mysore-royal-purple">Find Sweet Shops Near Me</Button>
-          </CardFooter>
-        </Card>
+        {/* Enhanced Must Try Section */}
+        <div className="space-y-6">
+          <h3 className="text-2xl font-bold text-center mb-6">Must Try in Mysuru</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {mustTryItems.map((item) => (
+              <Card key={item.id} className="bg-gradient-to-r from-mysore-marigold/20 to-mysore-sandalwood/20 border-mysore-marigold/30">
+                <CardHeader>
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Star className="h-5 w-5 text-mysore-heritage-red" />
+                    {item.name}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="mb-4">{item.description}</p>
+                  <div className="grid grid-cols-1 gap-4 text-sm">
+                    <div>
+                      <h5 className="font-semibold mb-1">Best Places:</h5>
+                      <ul className="text-muted-foreground space-y-1">
+                        {item.bestPlaces.map((place, index) => (
+                          <li key={index}>• {place}</li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <h5 className="font-semibold mb-1">Price Range:</h5>
+                        <p className="text-muted-foreground">{item.priceRange}</p>
+                      </div>
+                      <div>
+                        <h5 className="font-semibold mb-1">Details:</h5>
+                        <p className="text-muted-foreground">{item.shelfLife}</p>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+                <CardFooter>
+                  <Button variant="link" className="ml-auto text-mysore-royal-purple">Find Near Me</Button>
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
+        </div>
+
+        {/* Community Events Section */}
+        <Separator className="my-12" />
+        <CommunityEvents />
       </div>
     </div>
   );
