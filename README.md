@@ -1,59 +1,103 @@
+# 🏛️ MysuruOne: A Smart Civic & Tourism Assistant for Mysuru
 
+> **"Revolutionizing heritage tourism & civic engagement through AI-powered technology."**
 
-**Use your preferred IDE**
+![Mysuru](https://img.shields.io/badge/Built%20with-React%20%2B%20TypeScript-blue?style=flat-square)  
+![Tailwind CSS](https://img.shields.io/badge/UI-TailwindCSS-green?style=flat-square)  
+![Vite](https://img.shields.io/badge/Bundler-Vite-purple?style=flat-square)
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+---
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 📱 About the Project
 
-Follow these steps:
+**MysuruOne** is a powerful mobile-first web application that blends tourism assistance with a civic reporting system for the culturally rich city of Mysuru. Designed to be a **smart digital guide** for tourists and a **community-first tool** for residents, the app connects people to the city's essence—its **heritage, hospitality, and governance.**
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+---
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## ✨ Key Features
 
-# Step 3: Install the necessary dependencies.
-npm i
+### 🧭 Tourism Assistant
+- AI Chatbot to suggest attractions based on mood, weather & time of day
+- Curated itineraries, real-time maps, food hotspots, and review system
+- Multilingual support for wider reach
+- Push notifications & favorites feature for tourists
+- Quick links to transport, ticket booking, and hotel suggestions
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+### 🛠️ Civic Issue Reporting
+- Geo-tagged complaint system for garbage, potholes, drainage, etc.
+- Upload images with categorized forms
+- Complaint status tracking with updates
+- Streamlined government dashboard for resolving issues
+- Community-first features planned in future
+
+---
+
+## 🌐 Live Preview
+
+🚧 Coming soon...
+
+---
+
+## 📸 Screenshots
+
+> Add your UI screenshots here once ready  
+> _(Tourist homepage, AI chatbot UI, complaint form, dashboard etc.)_
+
+---
+
+## 🧪 Tech Stack
+
+| Frontend        | Styling         | Tooling         | AI/ML (Future)     |
+|----------------|-----------------|------------------|--------------------|
+| React + TypeScript | TailwindCSS       | Vite + ESLint + PostCSS | OpenAI API / Custom Models |
+
+---
+
+## 🔮 Future Enhancements
+
+- 🔗 Integration with Mysuru Municipality's real-time database
+- 📱 Launch as a mobile app (PWA / Flutter)
+- 🧠 Add image-based complaint detection using CV
+- 🗣 Voice-enabled multilingual chatbot
+- 🏛 Handing over to government for official adoption 🚀
+
+---
+
+## 🧑‍💼 Government Requirement
+
+- Current platforms are outdated and lack user-friendliness
+- No proper digital medium for civic issue resolution
+- Improves tourist experience via real-time assistance
+- Promotes Mysuru as a tech-enabled smart heritage city
+
+---
+
+## 📜 Problem Statement
+
+Current tourism platforms lack interactivity and there is no digital civic issue management system in Mysuru.
+
+---
+
+## 🛠️ Setup Instructions
+
+# Clone the repository
+git clone https://github.com/Prajwal-koundinya/major-project
+cd major-project
+
+# Install dependencies
+npm install
+
+# Run the app locally
 npm run dev
-```
 
-**Edit a file directly in GitHub**
+👨‍💻 Author
+Prajwal Koundinya
+💼 GitHub: @Prajwal-koundinya
+📧 Email: prajwalkowndinya@gmail.com
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+🤝 Acknowledgments
+Special thanks to the medical and AI communities for their valuable datasets and research.
+**Dr. Victor Ikechukwu**. Explore their work: [Dr. Victor Ikechukwu](https://github.com/Victor-Ikechukwu). 
 
-**Use GitHub Codespaces**
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/65ffac28-6ada-47d7-bbba-c5509ffafd6e) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+🧭 Mysuru Assist is built to scale, evolve, and contribute meaningfully to smart city transformation.
