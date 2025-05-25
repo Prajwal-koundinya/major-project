@@ -1,8 +1,10 @@
+
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
+import ThemeToggle from '@/components/ThemeToggle';
 
 interface HeaderProps {
   activeMode: 'tourist' | 'citizen';
@@ -61,9 +63,9 @@ const Header: React.FC<HeaderProps> = ({ activeMode, setActiveMode }) => {
       <div className="container flex items-center justify-between">
         <div className="flex items-center">
           <img src="/placeholder.svg" alt="Mysuru Logo" className="w-10 h-10 mr-3" />
-          <h1 className="text-xl md:text-2xl font-heading font-bold text-mysore-royal-purple">
+          <h1 className="text-xl md:text-2xl font-heading font-bold text-mysore-royal-purple dark:text-mysore-marigold">
             <span className="mr-1">Mysuru</span>
-            <span className="text-mysore-heritage-red">Assist</span>
+            <span className="text-mysore-heritage-red dark:text-mysore-palace-gold">Assist</span>
           </h1>
         </div>
 
@@ -74,7 +76,9 @@ const Header: React.FC<HeaderProps> = ({ activeMode, setActiveMode }) => {
             onClick={() => setActiveMode('tourist')}
             className={cn(
               'rounded-full px-6',
-              activeMode === 'tourist' ? 'bg-mysore-royal-purple text-white' : 'text-mysore-royal-purple'
+              activeMode === 'tourist' 
+                ? 'bg-mysore-royal-purple text-white dark:bg-mysore-marigold dark:text-gray-900' 
+                : 'text-mysore-royal-purple dark:text-mysore-marigold dark:border-mysore-marigold/30'
             )}
           >
             Tourist Mode
@@ -84,25 +88,35 @@ const Header: React.FC<HeaderProps> = ({ activeMode, setActiveMode }) => {
             onClick={() => setActiveMode('citizen')}
             className={cn(
               'rounded-full px-6',
-              activeMode === 'citizen' ? 'bg-mysore-heritage-red text-white' : 'text-mysore-heritage-red'
+              activeMode === 'citizen' 
+                ? 'bg-mysore-heritage-red text-white dark:bg-mysore-palace-gold dark:text-gray-900' 
+                : 'text-mysore-heritage-red dark:text-mysore-palace-gold dark:border-mysore-palace-gold/30'
             )}
           >
             Citizen Mode
           </Button>
-          <Button variant="ghost" className="ml-2" onClick={handleAboutClick}>
+          <Button 
+            variant="ghost" 
+            className="ml-2 dark:text-white dark:hover:bg-white/10" 
+            onClick={handleAboutClick}
+          >
             About
           </Button>
+          <ThemeToggle />
         </nav>
 
         {/* Mobile Menu Trigger */}
-        <Button 
-          variant="ghost" 
-          size="icon" 
-          className="md:hidden" 
-          onClick={toggleMobileMenu}
-        >
-          {isMobileMenuOpen ? <X /> : <Menu />}
-        </Button>
+        <div className="flex items-center space-x-2 md:hidden">
+          <ThemeToggle />
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="dark:text-white dark:hover:bg-white/10" 
+            onClick={toggleMobileMenu}
+          >
+            {isMobileMenuOpen ? <X /> : <Menu />}
+          </Button>
+        </div>
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
@@ -116,7 +130,9 @@ const Header: React.FC<HeaderProps> = ({ activeMode, setActiveMode }) => {
                 }}
                 className={cn(
                   'w-full justify-start',
-                  activeMode === 'tourist' ? 'bg-mysore-royal-purple text-white' : 'text-mysore-royal-purple'
+                  activeMode === 'tourist' 
+                    ? 'bg-mysore-royal-purple text-white dark:bg-mysore-marigold dark:text-gray-900' 
+                    : 'text-mysore-royal-purple dark:text-mysore-marigold dark:border-mysore-marigold/30'
                 )}
               >
                 Tourist Mode
@@ -129,14 +145,16 @@ const Header: React.FC<HeaderProps> = ({ activeMode, setActiveMode }) => {
                 }}
                 className={cn(
                   'w-full justify-start',
-                  activeMode === 'citizen' ? 'bg-mysore-heritage-red text-white' : 'text-mysore-heritage-red'
+                  activeMode === 'citizen' 
+                    ? 'bg-mysore-heritage-red text-white dark:bg-mysore-palace-gold dark:text-gray-900' 
+                    : 'text-mysore-heritage-red dark:text-mysore-palace-gold dark:border-mysore-palace-gold/30'
                 )}
               >
                 Citizen Mode
               </Button>
               <Button 
                 variant="ghost" 
-                className="w-full justify-start" 
+                className="w-full justify-start dark:text-white dark:hover:bg-white/10" 
                 onClick={handleAboutClick}
               >
                 About

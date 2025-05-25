@@ -48,41 +48,41 @@
   }
 
   .dark {
-    --background: 270 6% 10%;
+    --background: 220 20% 8%;
     --foreground: 0 0% 98%;
 
-    --card: 270 6% 13%;
+    --card: 220 20% 10%;
     --card-foreground: 0 0% 98%;
 
-    --popover: 270 6% 13%;
+    --popover: 220 20% 10%;
     --popover-foreground: 0 0% 98%;
 
     --primary: 271 54% 50%;
     --primary-foreground: 0 0% 98%;
 
     --secondary: 45 100% 55%;
-    --secondary-foreground: 270 6% 10%;
+    --secondary-foreground: 220 20% 8%;
 
-    --muted: 270 6% 20%;
-    --muted-foreground: 270 6% 70%;
+    --muted: 220 20% 15%;
+    --muted-foreground: 220 20% 60%;
 
     --accent: 36 50% 70%;
-    --accent-foreground: 270 6% 10%;
+    --accent-foreground: 220 20% 8%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 270 6% 25%;
-    --input: 270 6% 25%;
+    --border: 220 20% 20%;
+    --input: 220 20% 15%;
     --ring: 271 54% 50%;
 
-    --sidebar-background: 270 6% 15%;
+    --sidebar-background: 220 20% 12%;
     --sidebar-foreground: 0 0% 98%;
     --sidebar-primary: 45 100% 55%;
-    --sidebar-primary-foreground: 270 6% 10%;
+    --sidebar-primary-foreground: 220 20% 8%;
     --sidebar-accent: 271 30% 30%;
     --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 271 20% 25%;
+    --sidebar-border: 220 20% 18%;
     --sidebar-ring: 45 100% 55%;
   }
 }
@@ -93,7 +93,7 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans;
+    @apply bg-background text-foreground font-sans transition-colors duration-300;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -101,7 +101,30 @@
   }
   
   .glassmorphism {
-    @apply bg-white/70 dark:bg-gray-900/70 backdrop-blur-md border border-white/30 dark:border-gray-800/30 rounded-2xl shadow-lg;
+    @apply bg-white/70 dark:bg-gray-900/70 backdrop-blur-md border border-white/30 dark:border-gray-700/30 rounded-2xl shadow-lg transition-all duration-300;
+  }
+
+  /* Dark mode gradient cards */
+  .dark .glassmorphism {
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
+    border: 1px solid rgba(100, 116, 139, 0.3);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Enhanced hover effects for dark mode */
+  .dark .hover-card {
+    @apply transition-all duration-300 ease-in-out hover:scale-[1.02] hover:shadow-2xl;
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%);
+  }
+
+  .dark .hover-card:hover {
+    background: linear-gradient(135deg, rgba(51, 65, 85, 0.9) 0%, rgba(30, 41, 59, 0.95) 100%);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(147, 197, 253, 0.1);
+  }
+
+  /* Light mode hover effects */
+  .hover-card {
+    @apply transition-all duration-300 ease-in-out hover:scale-[1.02] hover:shadow-lg;
   }
 }
 
@@ -115,4 +138,15 @@
 
 .chatbot-window {
   @apply fixed bottom-24 right-6 w-80 h-96 glassmorphism overflow-hidden z-50 animate-fade-in;
+}
+
+/* Enhanced animations for theme transitions */
+@keyframes theme-transition {
+  0% { opacity: 0.8; }
+  50% { opacity: 0.9; }
+  100% { opacity: 1; }
+}
+
+.theme-transition {
+  animation: theme-transition 0.3s ease-in-out;
 }
