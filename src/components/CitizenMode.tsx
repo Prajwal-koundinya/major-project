@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import CommunityEvents from './CommunityEvents';
+import ComplaintForm from './ComplaintForm';
 
 const CitizenMode = () => {
   const services = [
@@ -46,6 +47,9 @@ const CitizenMode = () => {
         <p className="text-lg text-muted-foreground mb-8">
           Your gateway to Mysuru city services, civic engagement, and community participation.
         </p>
+
+        {/* Complaint Registration Form */}
+        <ComplaintForm />
 
         {/* Quick Actions Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">

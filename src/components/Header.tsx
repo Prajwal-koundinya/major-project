@@ -1,8 +1,8 @@
-
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 
 interface HeaderProps {
   activeMode: 'tourist' | 'citizen';
@@ -10,6 +10,7 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ activeMode, setActiveMode }) => {
+  const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
@@ -42,6 +43,11 @@ const Header: React.FC<HeaderProps> = ({ activeMode, setActiveMode }) => {
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const handleAboutClick = () => {
+    navigate('/about');
+    setIsMobileMenuOpen(false);
   };
 
   return (
@@ -83,7 +89,9 @@ const Header: React.FC<HeaderProps> = ({ activeMode, setActiveMode }) => {
           >
             Citizen Mode
           </Button>
-          <Button variant="ghost" className="ml-2">About</Button>
+          <Button variant="ghost" className="ml-2" onClick={handleAboutClick}>
+            About
+          </Button>
         </nav>
 
         {/* Mobile Menu Trigger */}
@@ -126,7 +134,13 @@ const Header: React.FC<HeaderProps> = ({ activeMode, setActiveMode }) => {
               >
                 Citizen Mode
               </Button>
-              <Button variant="ghost" className="w-full justify-start">About</Button>
+              <Button 
+                variant="ghost" 
+                className="w-full justify-start" 
+                onClick={handleAboutClick}
+              >
+                About
+              </Button>
             </div>
           </div>
         )}
